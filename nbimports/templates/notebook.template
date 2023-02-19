@@ -1,0 +1,27 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# allows access to modules from directory\n",
+    "import os\n",
+    "import sys\n",
+    "from pathlib import Path\n",
+    "module_path = Path(r'{{ modules_dir }}')\n",
+    "if module_path not in sys.path:\n",
+    "    sys.path.append(module_path)"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  },
+  "orig_nbformat": 4
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

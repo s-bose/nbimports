@@ -1,0 +1,8 @@
+{
+    "notebook_dir": "{{ notebook_dir }}",
+    "imports_dir": [
+        {% for dir_ in import_dirs %}
+        "{{ dir_ }}"
+        {% endfor %}
+    ] 
+}
