@@ -10,7 +10,7 @@
     "import os\n",
     "import sys\n",
     "from pathlib import Path\n",
-    "module_path = Path(r'{{ modules_dir }}')\n",
+    "module_path = Path(r{{ modules_dir }})\n",
     "if module_path not in sys.path:\n",
     "    sys.path.append(module_path)"
    ]
