@@ -1,14 +1,13 @@
 import os
 import json
 import questionary
-from pathlib import Path
 import secrets
 import json
+from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 import typer
 from rich import print as rprint
 
-from nbimports.utils import escape_slashes_winpath
 
 templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 
@@ -23,15 +22,25 @@ curr_path = os.path.abspath(os.getcwd())
 @app.command()
 def init():
     rprint("[bold green]Initializing for first time usage[/bold green]")
-    rel_path = questionary.path(
-        "Please enter the relative path to module you want to add: "
-    ).ask()
-    rel_path = os.path.abspath(rel_path)
+
+    import_paths = set()
+    is_add_more = True
+
+    while is_add_more:
+        rel_path = questionary.path(
+            "Please enter the path to module you want to add: "
+        ).ask()
+        rel_path = os.path.abspath(rel_path)
+        import_paths.add(repr(rel_path))
+
+        is_add_more = questionary.confirm("Add another directory?", default=False).ask()
 
     curr_path_json = json.dumps(repr(curr_path))
-    rel_path_json = json.dumps(repr(rel_path))
 
-    context = {"notebook_dir": curr_path_json, "import_dirs": [rel_path_json]}
+    context = {
+        "notebook_dir": curr_path_json,
+        "import_dirs": json.dumps(list(import_paths)),
+    }
 
     config_path = os.path.join(curr_path, "nbimport_conf.json")
     with open(config_path, "w") as fp:
@@ -53,9 +62,10 @@ def generate():
     filename = questionary.text("Enter file name [optional]").ask()
     filename = filename or str(secrets.token_hex())
     filename = f"{filename}.ipynb"
-    imports_dir = config["imports_dir"][0]
+    import_dirs = config["imports_dir"]
+
     with open(os.path.join(curr_path, filename), "w") as fp:
-        fp.write(notebook_template.render(modules_dir=imports_dir))
+        fp.write(notebook_template.render(modules_dir=import_dirs))
 
 
 if __name__ == "__main__":

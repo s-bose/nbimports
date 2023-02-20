@@ -7,12 +7,16 @@
    "outputs": [],
    "source": [
     "# allows access to modules from directory\n",
-    "import os\n",
     "import sys\n",
     "from pathlib import Path\n",
-    "module_path = Path(r{{ modules_dir }})\n",
-    "if module_path not in sys.path:\n",
-    "    sys.path.append(module_path)"
+    "modules_path = [\n",
+    {% for dir_ in modules_dir %}
+    "    Path(r{{ dir_ }}),\n",
+    {% endfor %}
+    "]\n",
+    "for path_ in modules_path:\n",
+    "    if path_ not in sys.path:\n",
+    "        sys.path.append(path_)\n"
    ]
   }
  ],
