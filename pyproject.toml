@@ -1,0 +1,33 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nbimports"
+version = "0.0.3"
+description = "A CLI tool for managing local module imports in jupyter notebooks"
+readme = "README.md"
+authors = [{ name = "Shiladitya Bose", email = "shiladitya.31.z@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["nbimports", "nbimport", "notebook"]
+dependencies = [
+    "Jinja2 >= 3.1.2",
+    "questionary >= 1.10.0",
+    "rich >= 13.3.1",
+    "typer >= 0.7.0"
+]
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
+
+[project.urls]
+Homepage = "https://github.com/s-bose/nbimports"
+
+[project.scripts]
+nbimports = "nbimports.__main__:app"

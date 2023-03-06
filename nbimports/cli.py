@@ -37,9 +37,10 @@ def init():
     }
 
     config_path = os.path.join(curr_path, CONFIG_FILENAME)
+    print(config_path)
     with open(config_path, "w") as fp:
         fp.write(config_template.render(context))
-    rprint(f"[bold green]set up nbimport config in {config_path}[/bold green]")
+    rprint(f"[bold green]set up nbimports config in {config_path}[/bold green]")
     rprint("[bold green]done! [/bold green]")
 
 
@@ -49,7 +50,7 @@ def generate():
 
     curr_path = os.path.abspath(os.getcwd())
 
-    config_path = os.path.join(curr_path, "nbimport_conf.json")
+    config_path = os.path.join(curr_path, CONFIG_FILENAME)
     if not os.path.exists(config_path):
         rprint("[bold red]no nbimport config found. Skipping.[/bold red]")
         exit()
@@ -71,11 +72,14 @@ def add():
     add_more: bool = True
 
     curr_path = os.path.abspath(os.getcwd())
-    config_path = os.path.join(curr_path, "nbimport_conf.json")
+    config_path = os.path.join(curr_path, CONFIG_FILENAME)
+
     with open(config_path) as fp:
         config = json.loads(fp.read())
 
-    if curr_path != config["notebook_dir"]:
+    notebook_path = config["notebook_dir"].strip("'")
+    if curr_path != notebook_path:
+
         rprint(
             "[bold red]Looks like you are trying to run the commands from another directory[/bold red]"
         )
